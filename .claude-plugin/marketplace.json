@@ -1,0 +1,17 @@
+{
+  "name": "flagrant",
+  "owner": {
+    "name": "Flagrant"
+  },
+  "metadata": {
+    "description": "Private skill marketplace for Flagrant and partner clients",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "adr",
+      "source": "./plugins/adr",
+      "description": "Write an Architecture Decision Record, or advise whether a decision is ADR-worthy."
+    }
+  ]
+}

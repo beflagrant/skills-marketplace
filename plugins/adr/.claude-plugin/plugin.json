@@ -1,0 +1,5 @@
+{
+  "name": "adr",
+  "description": "Write an Architecture Decision Record, or advise whether a decision is ADR-worthy.",
+  "version": "0.1.0"
+}
