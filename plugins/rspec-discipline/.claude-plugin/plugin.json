@@ -1,0 +1,5 @@
+{
+  "name": "rspec-discipline",
+  "description": "RSpec test selection and code review for Rails + ADR workflows. Trigger on \"write specs\", \"review this test\", \"review this code\", or when implementing an ADR.",
+  "version": "0.1.1"
+}

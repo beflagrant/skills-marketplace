@@ -12,6 +12,11 @@
       "name": "adr",
       "source": "./plugins/adr",
       "description": "Write an Architecture Decision Record (ADR), or advise whether a decision warrants one. Use when the user says \"write an ADR\", \"record this decision\", \"is this ADR-worthy?\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
+    },
+    {
+      "name": "rspec-discipline",
+      "source": "./plugins/rspec-discipline",
+      "description": "RSpec test selection and code review for Rails + ADR workflows. Trigger on \"write specs\", \"review this test\", \"review this code\", or when implementing an ADR."
     }
   ]
 }
