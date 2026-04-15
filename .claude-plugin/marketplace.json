@@ -11,7 +11,7 @@
     {
       "name": "adr",
       "source": "./plugins/adr",
-      "description": "Write an Architecture Decision Record (ADR), or advise whether a decision is ADR-worthy. Use when the user says \"write an ADR\", \"record this decision\", \"document this architecture decision\", \"is this ADR-worthy?\", \"should we write an ADR for…\", or is making a choice that affects structure, non-functional characteristics, dependencies, interfaces, or construction techniques. Also use when the user wants to backfill historical ADRs for decisions already made."
+      "description": "Write an Architecture Decision Record (ADR), or advise whether a decision warrants one. Use when the user says \"write an ADR\", \"record this decision\", \"is this ADR-worthy?\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
     }
   ]
 }
