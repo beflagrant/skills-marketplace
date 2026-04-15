@@ -93,6 +93,10 @@ What did you decide? State it plainly and specifically. Name the thing.
 If it's a technical choice, name the version, the library, the pattern.
 Avoid hedging language — "we will use X" not "we might consider X".
 
+Unless the decision is very clear with no significant trade-offs, include
+an `### Options` subsection listing the alternatives considered, with pros
+and cons for each. No more than 3 options.
+
 ## Consequences
 
 What does this make easier, harder, or impossible? Separate positive,
@@ -126,6 +130,8 @@ When invoked:
 8. **Invoke the `adr-refine` skill** on the file you just wrote. The draft is not done until it has survived a critique pass. Do not move on to implementation work between steps 7 and 8 — refinement comes first.
 
 ## Writing quality
+
+Write the ADR as a conversation with a future developer. Use full sentences organized into paragraphs. Bullets are acceptable for visual style — or when explicitly called for, such as pros/cons or consequences — not as an excuse for writing sentence fragments.
 
 The ADR's job is to help a future reader who has *only* the code and the ADR. Write accordingly:
 
