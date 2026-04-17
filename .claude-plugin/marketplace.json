@@ -19,6 +19,11 @@
       "description": "\"Guide for creating well-structured conventional commits. TRIGGER when: about to run `git commit`, user asks to commit or save changes to git, or drafting/reviewing a commit message. Use for single logical changes. Enforces conventional commit format, forbids AI attribution and Co-Authored-By trailers.\""
     },
     {
+      "name": "purposeful-commits",
+      "source": "./plugins/purposeful-commits",
+      "description": "\"Structure staged and unstaged changes into purposeful, logical commits. TRIGGER when: working tree contains changes spanning multiple concerns, or user asks to commit, structure commits, or organize changes. DO NOT trigger when the work is a single logical change — use commit-message-guide alone in that case.\""
+    },
+    {
       "name": "rspec-discipline",
       "source": "./plugins/rspec-discipline",
       "description": "RSpec test selection and code review for Rails + ADR workflows. Trigger on \"write specs\", \"review this test\", \"review this code\", or when implementing an ADR."
