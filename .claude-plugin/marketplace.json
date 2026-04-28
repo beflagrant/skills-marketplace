@@ -27,6 +27,11 @@
       "name": "purposeful-commits",
       "source": "./plugins/purposeful-commits",
       "description": "\"Structure staged and unstaged changes into purposeful, logical commits. TRIGGER when: working tree contains changes spanning multiple concerns, or user asks to commit, structure commits, or organize changes. DO NOT trigger when the work is a single logical change — use commit-message-guide alone in that case.\""
+    },
+    {
+      "name": "rails-test-discipline",
+      "source": "./plugins/rails-test-discipline",
+      "description": "\"Test selection, TDD discipline, and review posture for Rails (RSpec or Minitest). Trigger on write tests/specs, review this test/code, or when implementing an ADR.\""
     }
   ]
 }
