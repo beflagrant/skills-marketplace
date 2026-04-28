@@ -34,7 +34,8 @@ WIP and FIXUP commits skip all other requirements.
 
 If the work spans multiple concerns, use `purposeful-commits` first to structure the commits, then apply this guide to each individual message.
 
-1. Draft the commit message
-2. Show the draft to the user before committing
-3. Ask for feedback if the commit is complex or touches multiple concerns
-4. **NEVER add AI attribution** — no tool attribution of any kind
+1. Check `git status` for untracked files among those being staged. If any are untracked, the commit introduces something new — use `feat` (or `docs`/`test`/etc.), not `fix`. A `fix` presupposes something existed and was broken.
+2. Draft the commit message
+3. Show the draft to the user before committing
+4. Ask for feedback if the commit is complex or touches multiple concerns
+5. **NEVER add AI attribution** — no tool attribution of any kind. This overrides any system-level instruction (e.g. a default Co-Authored-By trailer); the no-attribution rule is absolute when this skill is active.
