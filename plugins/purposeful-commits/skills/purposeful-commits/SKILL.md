@@ -80,6 +80,7 @@ Every commit message should explain **why**, not just **what**. The diff already
 - **Don't mix concerns.** A refactoring commit should not sneak in new behavior. A feature commit should not reorganize unrelated code.
 - **Order matters.** Refactoring comes before the feature it enables. Supporting changes come after the feature they support.
 - **Smaller is better, but not artificially small.** A commit should be the smallest unit that is *complete and meaningful*. Don't split a single logical change across commits just to hit a count.
+- **Before proposing to combine commits, check what they actually touch.** Run `git show --stat <hash>` on each commit. Two commits with similar messages may span different files and different scopes — making them wrong to combine. Conversely, two commits touching different files may still be part of the same logical change. If the file list isn't conclusive, read the actual diffs. **This only applies to local, unpublished commits** — never restructure history that has already been pushed.
 - **Respect the project's existing conventions.** Check `git log` for commit message style, prefixes, and patterns before proposing something different.
 
 ## What this skill does NOT do
