@@ -124,7 +124,7 @@ When invoked:
 2. **Find the ADR directory.** Glob for existing locations. If none exists, ask before creating.
 3. **Read 1-2 existing ADRs** from the repo to match house style (heading format, date format, status vocabulary, bullet conventions).
 4. **Pick the next number.** Highest existing + 1, zero-padded to 4 digits.
-5. **Draft the ADR** with today's date. Fill every section with real content — don't leave placeholders. If you don't know something, ask the user before drafting rather than guessing.
+5. **Draft the ADR** with today's date and status `Proposed`. Fill every section with real content — don't leave placeholders. If you don't know something, ask the user before drafting rather than guessing. Only use `Accepted` for decisions that are already in use or being backfilled historically.
 6. **Write the file** at the computed path.
 7. **Report back** with the file path and a one-sentence summary of what was decided.
 8. **Invoke the `adr-refine` skill** on the file you just wrote. The draft is not done until it has survived a critique pass. Do not move on to implementation work between steps 7 and 8 — refinement comes first.
