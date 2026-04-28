@@ -1,3 +1,5 @@
+> **Do not edit this repo directly.** It is auto-published from [beflagrant/skills](https://github.com/beflagrant/skills). Manual edits will be overwritten on the next publish run.
+
 # Flagrant skills marketplace
 
 A private [Claude Code](https://claude.com/product/claude-code) plugin marketplace maintained by [Flagrant](https://beflagrant.com). This repo distributes the skills we use internally to teams and clients we collaborate with.
