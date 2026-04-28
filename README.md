@@ -60,11 +60,7 @@ Update to the latest version published:
 
 ## What's in the catalog
 
-Each subdirectory of `plugins/` is one installable plugin. Current contents:
-
-- **adr** — Writes Architecture Decision Records, or advises whether a decision is ADR-worthy. Use when you're making a choice that affects structure, dependencies, interfaces, or non-functional characteristics. Install with `/plugin install adr@flagrant`.
-
-The authoritative list is in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json).
+Each subdirectory of `plugins/` is one installable plugin. The authoritative list is in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json).
 
 ## How skills get invoked
 
