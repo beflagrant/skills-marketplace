@@ -1,6 +1,7 @@
 ---
 name: adr
-description: Write an Architecture Decision Record (ADR), or advise whether a decision warrants one. Use when the user says "write an ADR", "record this decision", "is this ADR-worthy?", or is making a choice affecting structure, dependencies, interfaces, or construction techniques.
+description: "Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate). Use when the user says \"write an ADR\", \"is this ADR-worthy?\", \"mark ADR NNNN superseded\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
+allowed-tools: Read, Glob, Write, Edit, Skill
 ---
 
 # ADR Writer
@@ -139,7 +140,7 @@ The ADR's job is to help a future reader who has *only* the code and the ADR. Wr
 - **Decision should be concrete.** Not "use a background job system" but "use Solid Queue as the Active Job backend, running on a dedicated worker dyno."
 - **Consequences should name real trade-offs.** "More complex" is not a consequence. "The worker dyno must be explicitly scaled on Heroku or jobs queue silently" is.
 - **Link to prior ADRs** when superseding or building on them. Use relative paths: `[ADR 0011](0011-date-range-picker.md)`.
-- **Be willing to be wrong later.** ADRs are a historical record. When a decision is reversed, write a new ADR that supersedes the old one — don't edit the original except to change its status line.
+- **Be willing to be wrong later.** ADRs are a historical record. When a decision is reversed, write a new ADR that supersedes the old one — don't edit the original except per the rules in *Updating an existing ADR* below.
 
 ## Backfilling historical ADRs
 
@@ -149,6 +150,28 @@ If the user asks to document a decision that was already made:
 - Use the **original** decision date if known, not today's. If unknown, use the commit date of the change that introduced it, or write "circa YYYY-MM" and say so.
 - Be honest about what you don't know. "The reasoning is inferred from the commit history and code shape; original discussion is not available" is better than fabricated context.
 - Mark status `Accepted` if the decision is still in force, `Superseded` if not.
+
+## Lifecycle
+
+An ADR moves through states:
+
+- **Proposed** — the working state. The ADR has been drafted (and ideally refined), but the decision hasn't been validated by working code yet. Edits are expected: implementation often surfaces gaps, contradictions, or constraints the draft missed, and those should feed back into the ADR while it's still Proposed. Re-refining a Proposed ADR after implementation reveals new information is normal.
+- **Accepted** — the decision has been validated by working code (or is being backfilled as a historical record). The ADR becomes effectively immutable; see *Updating an existing ADR* below.
+- **Superseded** / **Deprecated** — a later ADR has replaced or retired this one. Update the status line and add references; don't rewrite.
+
+Only flip `Proposed` → `Accepted` once the implementation has validated the decision. Don't accept prematurely just to mark the document "done" — that forfeits the ability to fix the ADR based on what implementation teaches you.
+
+## Updating an existing ADR
+
+Once an ADR is `Accepted`, it is effectively immutable. The only edits permitted are:
+
+1. **Status line updates** when a later ADR changes the picture. Examples:
+   - `**Status:** Deprecated (see ADR 23)`
+   - `**Status:** Superseded (see ADR 13)`
+   - `**Status:** Accepted — broadcast mechanism superseded by ADR 0021`
+2. **Reference additions in the body** when a later ADR only *partially* supersedes this one and a future reader needs to be pointed at the relevant new ADR. Do not rewrite the original reasoning to reflect the new state — that's what the new ADR is for.
+
+Anything beyond these belongs in a new ADR, not an edit to the existing one.
 
 ## Anti-patterns to avoid
 

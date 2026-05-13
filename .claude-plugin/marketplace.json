@@ -11,12 +11,12 @@
     {
       "name": "adr",
       "source": "./plugins/adr",
-      "description": "Write an Architecture Decision Record (ADR), or advise whether a decision warrants one. Use when the user says \"write an ADR\", \"record this decision\", \"is this ADR-worthy?\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
+      "description": "\"Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate). Use when the user says \\\"write an ADR\\\", \\\"is this ADR-worthy?\\\", \\\"mark ADR NNNN superseded\\\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques.\""
     },
     {
       "name": "adr-refine",
       "source": "./plugins/adr-refine",
-      "description": "Critique a draft Architecture Decision Record: surface unclear context, missing tradeoffs, and codebase inconsistencies. Auto-invoked by the adr skill; also use when the user says \"review this ADR\", \"refine this ADR\", or \"is this ADR good enough to commit?\""
+      "description": "\"Critique a draft Architecture Decision Record: surface unclear context, missing tradeoffs, and codebase inconsistencies. Auto-invoked by the adr skill; also use when the user says \\\"review this ADR\\\", \\\"refine this ADR\\\", \\\"is this ADR good enough to commit?\\\", or \\\"re-refine after implementation\\\".\""
     },
     {
       "name": "commit-message-guide",
@@ -32,6 +32,11 @@
       "name": "rails-test-discipline",
       "source": "./plugins/rails-test-discipline",
       "description": "\"Test selection, TDD discipline, and review posture for Rails (RSpec or Minitest). Trigger on write tests/specs, review this test/code, or when implementing an ADR.\""
+    },
+    {
+      "name": "session-handoff",
+      "source": "./plugins/session-handoff",
+      "description": "\"Create or resume a session handoff document. Trigger: 'create/save/load/resume handoff', 'continue where we left off', context running low, or proactively after substantial work (5+ edits, major decisions).\""
     }
   ]
 }

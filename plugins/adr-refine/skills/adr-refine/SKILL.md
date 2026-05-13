@@ -1,7 +1,7 @@
 ---
 name: adr-refine
-description: Critique a draft Architecture Decision Record: surface unclear context, missing tradeoffs, and codebase inconsistencies. Auto-invoked by the adr skill; also use when the user says "review this ADR", "refine this ADR", or "is this ADR good enough to commit?"
-allowed-tools: Read, Grep, Glob
+description: "Critique a draft Architecture Decision Record: surface unclear context, missing tradeoffs, and codebase inconsistencies. Auto-invoked by the adr skill; also use when the user says \"review this ADR\", \"refine this ADR\", \"is this ADR good enough to commit?\", or \"re-refine after implementation\"."
+allowed-tools: Read, Grep, Glob, Edit
 ---
 
 # ADR Refiner
@@ -14,16 +14,17 @@ This skill is the refinement half of the ADR workflow. The `adr` skill writes th
 
 - **Automatically after `adr`.** The `adr` skill's final step invokes this one on the file it just wrote. No user action required.
 - **On explicit request.** "Review this ADR", "refine ADR NNNN", "is this ADR good enough to commit?", or any pointer to an existing ADR file paired with a request for critique.
-- **Not for already-committed, accepted ADRs.** If the status is `Accepted` and the file is in git history, don't refine — propose a superseding ADR instead. The historical record matters.
+- **Not for Accepted ADRs.** If the status line says `Accepted`, don't refine — propose a superseding ADR instead. The historical record matters, and `Accepted` ADRs are immutable except for the status/reference updates documented in the `adr` skill.
+- **Re-refining a Proposed ADR is fine.** If implementation surfaced gaps or contradictions that fed back into a Proposed ADR, running this skill again on the updated draft is expected, not redundant.
 
 ## What to do
 
 1. **Read the ADR file in full.** Don't skim. Note the title, status, date, and every section.
 2. **Read the surrounding codebase where the ADR makes claims.** If the ADR says "we currently use X" or "the existing Y pattern", verify it. Use Grep and Read. An ADR that misdescribes the current state is worse than no ADR.
-3. **Read 1-2 neighboring ADRs** if any exist, to check for contradictions, supersession gaps, or unlinked prior decisions that should be referenced.
+3. **Read 1-2 topically related ADRs** if any exist — neighboring by subject, not just by number. Use Grep to find ADRs that mention the same component, system, or decision area. Check for contradictions, supersession gaps, or unlinked prior decisions that should be referenced.
 4. **Produce structured review notes** (format below) and print them to the chat. Do not edit the file yet.
 5. **Wait for the user's responses** to the questions and proposed edits. Do not apply anything until they answer.
-6. **Apply accepted edits** once the user has responded. Skip or revise the ones they rejected or modified. Re-run a lighter pass if the edits were substantial.
+6. **Apply accepted edits** once the user has responded. Skip or revise the ones they rejected or modified. Before running another pass, check *When to stop refining* below.
 
 ## Review notes format
 
@@ -49,7 +50,7 @@ Print review notes in this exact structure. Omit a section only if it has genuin
 2. ...
 
 ### Suggested edits
-{concrete diffs or revised sections for the smaller fixes — not vague advice}
+{cross-cutting rewrites that don't belong to a single category above — e.g., a reframing of the Context section, or a consolidation that affects multiple bullets. Single-category fixes belong inline with their category bullet, not here.}
 
 ### Overall
 {one or two sentences: is this close to commit-ready, or does it need a structural rework? Be direct.}
@@ -76,10 +77,16 @@ Print review notes in this exact structure. Omit a section only if it has genuin
 - Do not silently change the status line. Status changes are a decision the user makes.
 - After applying, report back with a brief summary: what changed, what was left open, and whether any of the questions are still unanswered.
 
+### When to stop refining
+
+Refinement converges when the remaining items are *polish* — wording, link hygiene, formatting consistency — rather than *substance* (missing tradeoff, unverified claim, wrong premise, ambiguous decision). At that point the ADR is done refining; say so and stop, even if minor improvements are still imaginable.
+
+If substantive issues — wrong framing, wrong scope, wrong decision, unverified premises — are still surfacing *after* the user has already revised the ADR in response to a prior round of refinement, the problem is structural, not refinable. Stop running passes and flag it as needing a rethink — see the "Infinite refinement" anti-pattern.
+
 ## Anti-patterns to avoid
 
 - **Rubber-stamping.** If the review notes are all "looks good", you didn't look hard enough. There is almost always a missing tradeoff or an unverified claim.
 - **Rewriting the ADR unprompted.** The user drafted it (possibly via the `adr` skill) for a reason. Critique and propose — don't overwrite.
 - **Fabricating codebase claims.** If you didn't actually read the file, don't say "the existing X does Y". Say "I didn't verify this — can you confirm?"
 - **Burying the lede.** If the ADR has a structural problem (wrong decision, wrong framing, wrong scope), say so in **Overall** first. Don't hide it under line-level nitpicks.
-- **Infinite refinement.** One good pass is the goal. If after a round of edits the ADR is still not close, say so plainly and suggest a rethink rather than a third pass.
+- **Infinite refinement.** Multiple rounds are normal — substantive ADRs typically take a few passes to converge, and re-refinement after implementation surfaces new information is expected. What's *not* normal is structural questions (wrong framing, wrong scope, wrong decision) still surfacing after the user has already revised in response to a prior round: that's a signal the ADR needs a rethink, not another polish pass. Say so plainly when you see it. See *When to stop refining* above.
