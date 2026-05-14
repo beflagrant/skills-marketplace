@@ -24,6 +24,11 @@
       "description": "\"Guide for creating well-structured conventional commits. TRIGGER when: about to run `git commit`, user asks to commit or save changes to git, or drafting/reviewing a commit message. Use for single logical changes. Enforces conventional commit format, forbids AI attribution and Co-Authored-By trailers.\""
     },
     {
+      "name": "crafting-effective-readmes",
+      "source": "./plugins/crafting-effective-readmes",
+      "description": "Use when writing or improving README files. Not all READMEs are the same — provides templates and guidance matched to your audience and project type."
+    },
+    {
       "name": "purposeful-commits",
       "source": "./plugins/purposeful-commits",
       "description": "\"Structure staged and unstaged changes into purposeful, logical commits. TRIGGER when: working tree contains changes spanning multiple concerns, or user asks to commit, structure commits, or organize changes. DO NOT trigger when the work is a single logical change — use commit-message-guide alone in that case.\""
@@ -37,6 +42,11 @@
       "name": "session-handoff",
       "source": "./plugins/session-handoff",
       "description": "\"Create or resume a session handoff document. Trigger: 'create/save/load/resume handoff', 'continue where we left off', context running low, or proactively after substantial work (5+ edits, major decisions).\""
+    },
+    {
+      "name": "writing-clearly-and-concisely",
+      "source": "./plugins/writing-clearly-and-concisely",
+      "description": "Use when writing prose humans will read—documentation, commit messages, error messages, explanations, reports, or UI text. Applies Strunk's timeless rules for clearer, stronger, more professional writing."
     }
   ]
 }
