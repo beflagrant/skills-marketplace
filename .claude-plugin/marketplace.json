@@ -29,6 +29,11 @@
       "description": "Use when writing or improving README files. Not all READMEs are the same — provides templates and guidance matched to your audience and project type."
     },
     {
+      "name": "heroku-duckdb-extract",
+      "source": "./plugins/heroku-duckdb-extract",
+      "description": "Use when the user wants to extract data from a Heroku Postgres database into a local DuckDB file with anonymization. Triggers: \"pull production data into DuckDB\", \"snapshot Heroku to DuckDB\", \"anonymize Heroku data for local analysis\", \"set up local analytics DB from Heroku\". Do not use for: schema review without extraction, Heroku Postgres connection troubleshooting, or running migrations.\n"
+    },
+    {
       "name": "purposeful-commits",
       "source": "./plugins/purposeful-commits",
       "description": "Structure staged and unstaged changes into purposeful, logical commits. TRIGGER when: working tree contains changes spanning multiple concerns, or user asks to commit, structure commits, or organize changes. DO NOT trigger when the work is a single logical change — use commit-message-guide alone in that case."
