@@ -2,6 +2,8 @@
 name: purposeful-commits
 description: "Structure staged and unstaged changes into purposeful, logical commits. TRIGGER when: working tree contains changes spanning multiple concerns, or user asks to commit, structure commits, or organize changes. DO NOT trigger when the work is a single logical change — use commit-message-guide alone in that case."
 allowed-tools: Bash(git *)
+metadata:
+  publish: marketplace
 ---
 
 # Purposeful Commits

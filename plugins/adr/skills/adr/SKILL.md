@@ -2,6 +2,8 @@
 name: adr
 description: "Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate). Use when the user says \"write an ADR\", \"is this ADR-worthy?\", \"mark ADR NNNN superseded\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
 allowed-tools: Read, Glob, Write, Edit, Skill
+metadata:
+  publish: marketplace
 ---
 
 # ADR Writer

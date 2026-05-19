@@ -2,6 +2,8 @@
 name: commit-message-guide
 description: "Guide for creating well-structured conventional commits. TRIGGER when: about to run `git commit`, user asks to commit or save changes to git, or drafting/reviewing a commit message. Use for single logical changes. Enforces conventional commit format, forbids AI attribution and Co-Authored-By trailers."
 allowed-tools: Bash(git *)
+metadata:
+  publish: marketplace
 ---
 
 # Commit Message Guide

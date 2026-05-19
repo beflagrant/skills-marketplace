@@ -1,5 +1,5 @@
 {
   "name": "adr-refine",
-  "description": "\"Critique a draft Architecture Decision Record: surface unclear context, missing tradeoffs, and codebase inconsistencies. Auto-invoked by the adr skill; also use when the user says \\\"review this ADR\\\", \\\"refine this ADR\\\", \\\"is this ADR good enough to commit?\\\", or \\\"re-refine after implementation\\\".\"",
-  "version": "0.1.2"
+  "description": "Critique a draft Architecture Decision Record: surface unclear context, missing tradeoffs, and codebase inconsistencies. Auto-invoked by the adr skill; also use when the user says \"review this ADR\", \"refine this ADR\", \"is this ADR good enough to commit?\", or \"re-refine after implementation\".",
+  "version": "0.1.3"
 }

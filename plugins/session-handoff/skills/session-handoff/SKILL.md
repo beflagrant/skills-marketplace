@@ -1,6 +1,8 @@
 ---
 name: session-handoff
 description: "Create or resume a session handoff document. Trigger: 'create/save/load/resume handoff', 'continue where we left off', context running low, or proactively after substantial work (5+ edits, major decisions)."
+metadata:
+  publish: marketplace
 ---
 
 # Handoff

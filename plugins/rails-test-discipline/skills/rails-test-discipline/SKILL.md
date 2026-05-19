@@ -3,9 +3,13 @@ name: rails-test-discipline
 description: "Test selection, TDD discipline, and review posture for Rails (RSpec or Minitest). Trigger on write tests/specs, review this test/code, or when implementing an ADR."
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(bundle exec *), Bash(bin/rails *)
 paths: spec/**, test/**
+metadata:
+  publish: marketplace
 ---
 
 # Rails Test Discipline
+
+For general TDD principles (red→green→refactor cycle, mocking boundaries, public interface testing), defer to the `tdd` skill. This skill handles what's Rails-specific: test-level selection, factory/fixture guidance, ADR alignment, and review posture.
 
 This skill is for Rails testing work (RSpec or Minitest) where the cost of a subtle, passing-but-wrong test is higher than the cost of slowing down. It encodes two things:
 
