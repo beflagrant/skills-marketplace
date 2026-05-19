@@ -44,6 +44,11 @@
       "description": "Create or resume a session handoff document. Trigger: 'create/save/load/resume handoff', 'continue where we left off', context running low, or proactively after substantial work (5+ edits, major decisions)."
     },
     {
+      "name": "tdd",
+      "source": "./plugins/tdd",
+      "description": "TDD via red-green-refactor. Use when implementing features test-first, or asking about mocking strategy, test doubles, stubbing external services, or testable interface design."
+    },
+    {
       "name": "writing-clearly-and-concisely",
       "source": "./plugins/writing-clearly-and-concisely",
       "description": "Use when writing prose humans will read—documentation, commit messages, error messages, explanations, reports, or UI text. Applies Strunk's timeless rules for clearer, stronger, more professional writing."

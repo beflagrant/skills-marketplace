@@ -1,0 +1,5 @@
+{
+  "name": "tdd",
+  "description": "TDD via red-green-refactor. Use when implementing features test-first, or asking about mocking strategy, test doubles, stubbing external services, or testable interface design.",
+  "version": "0.1.1"
+}
