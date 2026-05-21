@@ -64,12 +64,7 @@ To pick the next number:
 
 ## Filename format
 
-`NNNN-kebab-case-title.md` — short, descriptive, derived from the title. Keep it under ~60 characters. Strip articles (`a`, `the`), drop punctuation, lowercase.
-
-Examples:
-- `0008-tour-data-sync.md`
-- `0015-inventory-calculation-modes.md`
-- `0018-product-stats-date-filter-route-date.md`
+`NNNN-kebab-case-title.md` — derived from the title, under ~60 characters. Strip articles (`a`, `the`), drop punctuation, lowercase. Example: `0008-tour-data-sync.md`.
 
 ## Format
 
@@ -102,12 +97,17 @@ and cons for each. No more than 3 options.
 
 ## Consequences
 
-What does this make easier, harder, or impossible? Separate positive,
-neutral, and negative consequences so the trade-offs are visible.
+What does this make easier, harder, or impossible? Every bullet must
+begin with **`Positive:`**, **`Neutral:`**, or **`Negative:`** — that
+valence is what makes trade-offs visible at a glance. Name the topic
+in the body of the bullet, not as a competing prefix.
 
-- **Positive:** ...
+- **Positive:** Rollback is straightforward — flip the flag and redeploy.
 - **Neutral:** ...
-- **Negative:** ...
+- **Negative:** Adds a runtime dependency on the cache layer; outages here now degrade the auth path.
+
+Use a separate bullet per consequence. If a bullet mixes polarities
+("simpler to operate, but slower at p99"), split it into two.
 
 A decision with no negative consequences is suspicious — keep looking.
 If one of the negatives turns out to be unacceptable, that's a signal

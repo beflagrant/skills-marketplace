@@ -41,6 +41,10 @@ Print review notes in this exact structure. Omit a section only if it has genuin
 ### Missing tradeoffs
 - {alternative not considered, or consequence not named, with a pointer to what's missing}
 
+### Unlabeled consequences
+- {file:line} `- Rollback is straightforward.` → `- **Positive:** Rollback is straightforward.`
+- {file:line} `- **Positive:** Simpler to operate, but slower at p99.` → split: `- **Positive:** Simpler to operate.` and `- **Negative:** p99 latency regresses by ~Xms.`
+
 ### Hand-wavy language
 - {quoted phrase} → {why it's vague and what concrete version would look like}
 
@@ -63,6 +67,8 @@ Print review notes in this exact structure. Omit a section only if it has genuin
 **Unclear context.** Will a reader five years from now, who has only the code and this ADR, understand *why a decision had to be made at all*? Context that describes the world as it will be ("we use Rails 8") rather than the world as it was ("at the time, we were choosing a framework") ages badly.
 
 **Missing tradeoffs.** A decision with no negative consequences is suspicious. So is a decision that names only one alternative. Push on: what did we *not* pick, and why? What does this make harder or impossible?
+
+**Unlabeled consequences.** Every bullet under `## Consequences` must begin with **`Positive:`**, **`Neutral:`**, or **`Negative:`** (bold prefix, colon, then the body). Flag any bullet that doesn't — report it with file:line and a suggested rewrite that picks the right label. If a bullet mixes polarities ("simpler to operate, but slower at p99"), the rewrite splits it into two bullets, one per valence. Topical-only labels like "Rollback", "Privacy", or "Cost" hide whether the consequence is good news or bad news; rewrite them into the valence-first form with the topic named in the body.
 
 **Hand-wavy language.** Flag hedging ("we might", "consider", "probably"), vague decisions ("use a background job system" without naming the library), and non-consequences ("more complex", "some risk"). Quote the phrase and suggest a concrete replacement.
 
