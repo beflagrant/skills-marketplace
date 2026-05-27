@@ -36,7 +36,7 @@ WIP and FIXUP commits skip all other requirements.
 
 If the work spans multiple concerns, use `purposeful-commits` first to structure the commits, then apply this guide to each individual message.
 
-1. Check `git status` for untracked files among those being staged. If any are untracked, the commit introduces something new — use `feat` (or `docs`/`test`/etc.), not `fix`. A `fix` presupposes something existed and was broken.
+1. Check whether the change has a committed prior state. Run `git status` and `git log -- <file>` on the staged paths. If a staged file is untracked, *or* if a staged modification only refines work that hasn't been committed yet, the commit introduces something new — use `feat` (or `docs`/`test`/etc.), not `fix`. A `fix` presupposes something existed in `git log` and was broken.
 2. Draft the commit message
 3. Show the draft to the user before committing
 4. Ask for feedback if the commit is complex or touches multiple concerns
