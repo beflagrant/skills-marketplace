@@ -1,6 +1,6 @@
 ---
 name: adr
-description: "Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate). Use when the user says \"write an ADR\", \"is this ADR-worthy?\", \"mark ADR NNNN superseded\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
+description: "Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate, amend). Use when the user says \"write an ADR\", \"is this ADR-worthy?\", \"mark ADR NNNN superseded\", \"amend ADR NNNN\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques."
 allowed-tools: Read, Glob, Write, Edit, Skill
 metadata:
   publish: marketplace
@@ -114,7 +114,7 @@ If one of the negatives turns out to be unacceptable, that's a signal
 to revisit the decision before writing the ADR.
 ```
 
-Optional sections, only when they carry weight:
+Beyond the baseline template above, add these sections only when they carry weight:
 - `## Schema changes` — migrations, index additions, column changes
 - `## Alternatives considered` — when the road not taken is itself instructive
 - `## References` — links to prior ADRs, external docs, incident reports, PRs
@@ -157,7 +157,7 @@ If the user asks to document a decision that was already made:
 
 An ADR moves through states:
 
-- **Proposed** — the working state. The ADR has been drafted (and ideally refined), but the decision hasn't been validated by working code yet. Edits are expected: implementation often surfaces gaps, contradictions, or constraints the draft missed, and those should feed back into the ADR while it's still Proposed. Re-refining a Proposed ADR after implementation reveals new information is normal.
+- **Proposed** — the working state. The ADR has been drafted and refined (see Process step 8 — the draft is not done until it has survived a critique pass), but the decision hasn't been validated by working code yet. Edits are expected: implementation often surfaces gaps, contradictions, or constraints the draft missed, and those should feed back into the ADR while it's still Proposed. Re-refining a Proposed ADR after implementation reveals new information is normal.
 - **Accepted** — the decision has been validated by working code (or is being backfilled as a historical record). The ADR becomes effectively immutable; see *Updating an existing ADR* below.
 - **Superseded** / **Deprecated** — a later ADR has replaced or retired this one. Update the status line and add references; don't rewrite.
 
@@ -171,14 +171,49 @@ Once an ADR is `Accepted`, it is effectively immutable. The only edits permitted
    - `**Status:** Deprecated (see ADR 23)`
    - `**Status:** Superseded (see ADR 13)`
    - `**Status:** Accepted — broadcast mechanism superseded by ADR 0021`
+   - `**Status:** Accepted — amended 2026-05-21 (ADR 0029)`
+   - `**Status:** Accepted — amended 2026-05-21 (ADR 0029), 2026-08-12 (ADR 0034)`
+   - `**Status:** Accepted — amended (see Amendment sections below)` *(when the inline list gets unwieldy)*
 2. **Reference additions in the body** when a later ADR only *partially* supersedes this one and a future reader needs to be pointed at the relevant new ADR. Do not rewrite the original reasoning to reflect the new state — that's what the new ADR is for.
+3. **Amendments appended as new sections** when a later ADR shifts the *facts surrounding* the decision (a column renamed, a join path changed, an index replaced) without changing the decision itself. Use the format:
+
+   ```
+   ## Amendment — YYYY-MM-DD (ADR NNNN)
+
+   [What shifted. The original ADR said X; ADR NNNN changed Y; the relevant code/schema now reads Z. Point at the implementing issue or PR.]
+   ```
+
+   The amendment is a top-level (`##`) section appended after all existing sections of the ADR — always at the end, regardless of what it touches. Multiple amendments stack chronologically at the bottom. The original sections are not edited. The parenthetical names the triggering ADR.
+
+   Update the status line in the same edit (see item 1 examples). Status itself stays `Accepted`; the extension after the em-dash signals "this ADR has been amended" so a reader who never scrolls past Decision still gets the pointer.
 
 Anything beyond these belongs in a new ADR, not an edit to the existing one.
+
+### Amend vs. supersede
+
+The distinction is what changed:
+
+- **Supersede** — the *decision* is replaced. The original was right at the time but is no longer the chosen approach. Status becomes `Superseded by ADR NNNN`; the new ADR carries the new decision.
+- **Amend** — the *decision still stands* but the surrounding facts have shifted under it (a downstream ADR changed a column name, a join path, an index, a model). Rewriting the original would erase the historical decision context; marking it superseded would overclaim what changed; a passing reference is too easy to miss. Append an Amendment section instead.
+
+If you find yourself wanting to rewrite the original's reasoning to "make it accurate now," that's a sign you should either be writing a new ADR (supersede) or appending an amendment — never editing the original sections.
+
+#### When in doubt
+
+Read the Decision section literally. Has the thing it names been replaced, or just the world around it?
+
+**The substitution test.** Can a reader of the new code still apply the original Decision's *intent* by mechanically substituting names (column, table, provider, method)? If yes → amend. If no → supersede. *Example:* an ADR that says "persist user uploads to durable object storage" can be amended when the provider moves from S3 to GCS; an ADR that says "store uploads in S3" must be superseded when uploads move to GCS.
+
+**The partial-supersede trap.** If half the original decision is now wrong, that's a partial supersession — status update + body reference (option 2 above), not an amendment. *Example:* "all subscriptions are monthly via Stripe" → "annual plans move to invoice billing; monthly plans stay" replaces half the decision. Amendment is wrong because the surrounding facts didn't shift; half the decision changed.
+
+**The outdated-rationale trap.** If the original *reasoning* no longer applies but the same decision is being made for different reasons, that's an amendment — not a supersede. *Example:* "process synchronously because volume is low" still keeps the sync job when volume is high if the team accepts the cost for risk reasons; the decision is unchanged, the rationale shifted.
+
+**When amendments stack.** Amendments accumulate around an unchanging core decision. An ADR with five amendments whose Decision is still the right call stays Accepted; an ADR whose Decision is now the wrong call needs a supersede regardless of amendment count.
 
 ## Anti-patterns to avoid
 
 - **Decision logs masquerading as ADRs.** If every minor choice gets an ADR, the signal drowns. Aim for a handful per quarter, not dozens.
 - **Restating the code.** Don't describe *what* the code does. Describe *why* it does it that way.
 - **Consequence-free decisions.** If you can't name a real negative, you probably haven't thought hard enough.
-- **Amending accepted ADRs.** Supersede instead. The historical record matters.
+- **Rewriting accepted ADRs to make them "accurate."** Supersede or append an Amendment instead — see *Updating an existing ADR*. The historical record matters.
 - **Vague status.** "In progress" is not a status. Use Proposed / Accepted / Superseded / Deprecated.

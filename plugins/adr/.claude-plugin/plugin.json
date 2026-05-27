@@ -1,5 +1,5 @@
 {
   "name": "adr",
-  "description": "Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate). Use when the user says \"write an ADR\", \"is this ADR-worthy?\", \"mark ADR NNNN superseded\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques.",
-  "version": "0.1.6"
+  "description": "Write an Architecture Decision Record (ADR), advise on ADR-worthiness, or update an existing ADR's status (accept, supersede, deprecate, amend). Use when the user says \"write an ADR\", \"is this ADR-worthy?\", \"mark ADR NNNN superseded\", \"amend ADR NNNN\", or is making a choice affecting structure, dependencies, interfaces, or construction techniques.",
+  "version": "0.1.7"
 }
