@@ -49,6 +49,11 @@
       "description": "Create or resume a session handoff document. Trigger: 'create/save/load/resume handoff', 'continue where we left off', context running low, or proactively after substantial work (5+ edits, major decisions)."
     },
     {
+      "name": "skill-judge",
+      "source": "./plugins/skill-judge",
+      "description": "Evaluate Agent Skill design quality against official specifications and best practices. Use when reviewing, auditing, or improving SKILL.md files and skill packages. Provides multi-dimensional scoring and actionable improvement suggestions."
+    },
+    {
       "name": "tdd",
       "source": "./plugins/tdd",
       "description": "TDD via red-green-refactor. Use when implementing features test-first, or asking about mocking strategy, test doubles, stubbing external services, or testable interface design."
