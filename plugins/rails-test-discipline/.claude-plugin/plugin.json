@@ -1,5 +1,0 @@
-{
-  "name": "rails-test-discipline",
-  "description": "Test selection, TDD discipline, and review posture for Rails (RSpec or Minitest). Trigger on write tests/specs, review this test/code, or when implementing an ADR.",
-  "version": "0.1.2"
-}
