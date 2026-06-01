@@ -147,44 +147,127 @@ def find_previous_handoffs(project_path: str) -> list[dict]:
 def get_previous_handoff_info(
     handoffs: list[dict],
     continues_from: str | None = None,
+    branches_from: str | None = None,
 ) -> dict:
     """Get information about the previous handoff for chaining.
 
     Takes the already-scanned handoffs list so the caller can reuse it
     rather than re-scanning the directory.
+
+    `relationship` is "continues" or "branches" when an explicit target was
+    given, or None when the result is an auto-suggestion of the most recent
+    handoff (caller decides how to render that case).
     """
-    if continues_from:
+    target = continues_from or branches_from
+    relationship = "continues" if continues_from else ("branches" if branches_from else None)
+
+    if target:
         for h in handoffs:
-            if continues_from in h["filename"]:
+            if target in h["filename"]:
                 return {
                     "exists": True,
+                    "relationship": relationship,
                     "filename": h["filename"],
                     "title": h["title"],
                 }
-        return {"exists": False, "filename": continues_from, "title": "Not found"}
+        return {
+            "exists": False,
+            "relationship": relationship,
+            "filename": target,
+            "title": "Not found",
+        }
 
     if handoffs:
         most_recent = handoffs[0]
         return {
             "exists": True,
+            "relationship": None,
             "filename": most_recent["filename"],
             "title": most_recent["title"],
             "suggested": True,
         }
 
-    return {"exists": False}
+    return {"exists": False, "relationship": None}
+
+
+def render_chain_section(prev_handoff: dict, no_chain: bool = False) -> str:
+    """Render the Handoff Chain section based on the relationship to a prior handoff.
+
+    Three explicit relationships are supported:
+    - "continues": linear continuation of the prior thread
+    - "branches": diverged from a prior handoff (both threads remain valid)
+    - supersedes: handled as a separate list field, populated by the human/agent
+
+    When `no_chain` is True, render an "independent work" section. When the
+    relationship is None but a prior handoff was found, render an auto-suggested
+    continuation with a note pointing at the override flags.
+    """
+    if no_chain:
+        return (
+            "## Handoff Chain\n\n"
+            "- **Continues from**: None (independent work)\n"
+            "- **Supersedes**: None"
+        )
+
+    if not prev_handoff.get("exists"):
+        return (
+            "## Handoff Chain\n\n"
+            "- **Continues from**: None (fresh start)\n"
+            "- **Supersedes**: None\n\n"
+            "> This is the first handoff for this task."
+        )
+
+    filename = prev_handoff["filename"]
+    title = prev_handoff.get("title", "Unknown")
+    relationship = prev_handoff.get("relationship")
+
+    if relationship == "branches":
+        label = "Branches from"
+        note = (
+            "> The prior handoff was not resumed this session. This handoff "
+            "captures a divergent thread; the prior one remains valid."
+        )
+    else:
+        label = "Continues from"
+        note = "> Review the previous handoff for full context before filling this one."
+
+    lines = [
+        "## Handoff Chain",
+        "",
+        f"- **{label}**: [{filename}](./{filename})",
+        f"  - Previous title: {title}",
+        '- **Supersedes**: [list any older handoffs this replaces, or "None"]',
+        "",
+        note,
+    ]
+
+    if prev_handoff.get("suggested"):
+        lines.append("")
+        lines.append(
+            "> *Auto-suggested most-recent handoff as continuation. If this work "
+            "diverged from a declined handoff use `--branches-from`; if it's "
+            "unrelated use `--no-chain`.*"
+        )
+
+    return "\n".join(lines)
 
 
 def generate_handoff(
     project_path: str,
     slug: str | None = None,
     continues_from: str | None = None,
+    branches_from: str | None = None,
+    no_chain: bool = False,
     prev_handoffs: list[dict] | None = None,
 ) -> str:
     """Generate a handoff document with pre-filled metadata.
 
     If `prev_handoffs` is provided (already scanned by the caller), it
     is used directly to avoid a second pass over the handoffs directory.
+
+    `continues_from` and `branches_from` are mutually exclusive — when both
+    are set, `continues_from` wins. `no_chain` forces an "independent work"
+    chain section regardless of any prior handoffs.
     """
 
     # Generate timestamp and filename
@@ -225,7 +308,9 @@ def generate_handoff(
     # Get previous handoff info for chaining (scan only if caller didn't)
     if prev_handoffs is None:
         prev_handoffs = find_previous_handoffs(project_path)
-    prev_handoff = get_previous_handoff_info(prev_handoffs, continues_from)
+    prev_handoff = get_previous_handoff_info(
+        prev_handoffs, continues_from, branches_from
+    )
 
     # Build pre-filled sections
     branch_line = git_info["branch"] if git_info["branch"] else "[not a git repo or detached HEAD]"
@@ -246,21 +331,7 @@ def generate_handoff(
         modified_section = "| [no modified files detected] | | |"
 
     # Handoff chain section
-    if prev_handoff.get("exists"):
-        chain_section = f"""## Handoff Chain
-
-- **Continues from**: [{prev_handoff['filename']}](./{prev_handoff['filename']})
-  - Previous title: {prev_handoff.get('title', 'Unknown')}
-- **Supersedes**: [list any older handoffs this replaces, or "None"]
-
-> Review the previous handoff for full context before filling this one."""
-    else:
-        chain_section = """## Handoff Chain
-
-- **Continues from**: None (fresh start)
-- **Supersedes**: None
-
-> This is the first handoff for this task."""
+    chain_section = render_chain_section(prev_handoff, no_chain=no_chain)
 
     # Render the document from the canonical references/ template.
     content = _load_template().format(
@@ -287,10 +358,23 @@ def main():
         default=None,
         help="Short identifier for the handoff (e.g., 'implementing-auth')"
     )
-    parser.add_argument(
+    chain_group = parser.add_mutually_exclusive_group()
+    chain_group.add_argument(
         "--continues-from",
         dest="continues_from",
-        help="Filename of previous handoff this continues from"
+        help="Filename of previous handoff this continues from (same thread)"
+    )
+    chain_group.add_argument(
+        "--branches-from",
+        dest="branches_from",
+        help="Filename of previous handoff this diverged from (different thread; "
+             "use when the prior handoff was surfaced but not resumed this session)"
+    )
+    chain_group.add_argument(
+        "--no-chain",
+        dest="no_chain",
+        action="store_true",
+        help="Mark this handoff as unrelated to any prior handoff (independent work)"
     )
 
     args = parser.parse_args()
@@ -301,16 +385,22 @@ def main():
     # Single scan of the handoffs directory; reused by generate_handoff.
     prev_handoffs = find_previous_handoffs(project_path)
 
-    if not args.continues_from and prev_handoffs:
+    no_explicit_chain = not (args.continues_from or args.branches_from or args.no_chain)
+    if no_explicit_chain and prev_handoffs:
         print(f"Found {len(prev_handoffs)} existing handoff(s).")
         print(f"Most recent: {prev_handoffs[0]['filename']}")
-        print(f"Use --continues-from <filename> to link handoffs.\n")
+        print(
+            "No relationship specified — defaulting to a suggested continuation. "
+            "Pass --continues-from / --branches-from / --no-chain to be explicit.\n"
+        )
 
     # Generate handoff
     filepath = generate_handoff(
         project_path,
         args.slug,
-        args.continues_from,
+        continues_from=args.continues_from,
+        branches_from=args.branches_from,
+        no_chain=args.no_chain,
         prev_handoffs=prev_handoffs,
     )
 

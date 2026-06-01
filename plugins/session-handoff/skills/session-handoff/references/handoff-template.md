@@ -109,6 +109,7 @@ The script reads this file via Python's `str.format`, so any literal
 ## Related Resources
 
 - [TODO: Add links to relevant docs and files]
+- [TODO: If the handoff references artifacts that live outside the repo (chat messages, sketches, drafts), save copies under `.claude/handoffs/` and link them here]
 
 ---
 
