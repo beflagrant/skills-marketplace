@@ -4,9 +4,9 @@ What `session-handoff` depends on beyond the skill directory itself. The skill w
 
 ## Why this file exists
 
-This config maintains skills in parallel git repos (see ADR 0001: "Skill Maintenance via Parallel Git Repos"). The `scripts/sync-skill.sh` script copies a skill between repos, but explicitly does **not** copy resources outside the skill directory — rules, hooks, settings. It emits a heuristic warning when it spots likely external references, but the heuristic is best-effort and the actual setup work is manual.
+A skill packages as a self-contained directory and can be installed in many ways — a personal config repo, a plugin, a marketplace install. But anything that integrates with the host — rules loaded passively each session, `settings.json` hooks, permission allowlist entries — lives *outside* the skill directory and doesn't ship with the package.
 
-This file is the manual half: when you sync `session-handoff` into a new environment, this is what to set up alongside it. Skip it and the skill still works on demand; adopt it and the handoff workflow feels automatic.
+This file is the manual half: when you install `session-handoff` into a new environment, this is what to set up alongside it. Skip it and the skill still works on demand; adopt it and the handoff workflow feels automatic.
 
 ## 1. Host config: see `references/setup.md`
 
@@ -55,20 +55,20 @@ Adopt as many as suit your taste. Each section gives the intent, the failure mod
 
 ### 2c. Save external artifacts as they're produced
 
-**Intent:** when the session produces an artifact that lives outside the repo — a draft message to a teammate, an ASCII wireframe in a chat window, a question put to a stakeholder — a copy gets saved under `.claude/handoffs/` while it's still in front of the model. The skill carries this principle at handoff-write time (see `SKILL.md`); the rule carries the *timing* half.
+**Intent:** when the session produces an artifact that lives outside the repo — a draft message to a teammate, an ASCII wireframe in a chat window, a question put to a stakeholder — a copy gets saved under `.claude/handoffs/artifacts/` while it's still in front of the model. The skill carries this principle at handoff-write time (see `SKILL.md`); the rule carries the *timing* half. The `artifacts/` subdirectory keeps companion files out of the way of the hook and listing scripts, which only see top-level `.md` handoffs.
 
 **Failure without it:** draft artifacts scroll out of context before the handoff is written, and the resuming session can't reason about replies like "I like B" that came in afterwards.
 
 **Sample wording:**
 
-> When work in a session produces an artifact that lives outside the repo — a draft message sent to a teammate, an ASCII wireframe in a chat window, a question put to a stakeholder — save a copy under `.claude/handoffs/` while the artifact is still in front of you. The `session-handoff` skill covers how a handoff should reference these; the rule's half is timing, because by handoff-write time a chat-only draft may already be scrolled out of context.
+> When work in a session produces an artifact that lives outside the repo — a draft message sent to a teammate, an ASCII wireframe in a chat window, a question put to a stakeholder — save a copy under `.claude/handoffs/artifacts/` while the artifact is still in front of you. The `session-handoff` skill covers how a handoff should reference these; the rule's half is timing, because by handoff-write time a chat-only draft may already be scrolled out of context.
 
 ## Adopting these in a new environment
 
 Rough order:
 
 1. Apply the `settings.json` entries from `references/setup.md` (permissions + optional `SessionStart` hook registration).
-2. Install `recent-handoff-notice.sh` into your `hooks/` directory if you want the proactive surfacing.
+2. Register the `SessionStart` hook (the script ships at `hooks/recent-handoff-notice.sh` inside this skill) if you want the proactive surfacing — `references/setup.md` has the exact entry.
 3. Paste the sample wording above into your rule file (`~/.claude/rules/<something>.md`, or your project's `CLAUDE.md`), editing freely. Three sections, three behaviors — adopt all or just the ones that fit.
 
 None of these are required for the skill to function; they make the surrounding workflow feel automatic instead of on-demand.

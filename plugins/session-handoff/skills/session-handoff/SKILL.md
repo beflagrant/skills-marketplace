@@ -71,7 +71,7 @@ Open the generated file and fill in all `[TODO: ...]` sections. Prioritize these
 
 Use the template structure in [references/handoff-template.md](references/handoff-template.md) for guidance.
 
-If the handoff references artifacts that live outside the repo — a draft message sent to a teammate, an ASCII wireframe in a chat window, a question put to a stakeholder — preserve copies under `.claude/handoffs/` alongside the handoff document and link to them from "Related Resources". Ideally these were saved as they were produced during the session, not at handoff-write time — by then a chat-only draft may already have scrolled out of context. A handoff that mentions "three wireframes sent to a teammate" without preserving the wireframes themselves leaves the resuming session unable to reason about a later reply like "I like B".
+If the handoff references artifacts that live outside the repo — a draft message sent to a teammate, an ASCII wireframe in a chat window, a question put to a stakeholder — preserve copies under `.claude/handoffs/artifacts/` and link to them from "Related Resources". The `artifacts/` subdirectory keeps these companion files out of the way of the `SessionStart` hook and `list_handoffs.py`, both of which only look at top-level `.md` files in `.claude/handoffs/`. Ideally these were saved as they were produced during the session, not at handoff-write time — by then a chat-only draft may already have scrolled out of context. A handoff that mentions "three wireframes sent to a teammate" without preserving the wireframes themselves leaves the resuming session unable to reason about a later reply like "I like B".
 
 ### Step 3: Validate the Handoff
 
