@@ -21,7 +21,7 @@ For Rails projects, use this skill alongside `rails-test-discipline`. This skill
 
 **Bad tests** are coupled to implementation. They mock internal collaborators, test private methods, or verify state through back-channel means (like a raw SQL query) instead of through the public interface. Note: using a real database is correct — the problem is bypassing the interface to inspect it directly. The warning sign: your test breaks when you refactor, but behavior hasn't changed. If you rename an internal function and tests fail, those tests were testing implementation, not behavior.
 
-See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
+See [tests.md](references/tests.md) for examples and [mocking.md](references/mocking.md) for mocking guidelines.
 
 ## Never
 
@@ -65,11 +65,11 @@ Before writing any code:
 
 - [ ] Confirm with user what interface changes are needed
 - [ ] Confirm with user which behaviors to test (prioritize)
-- [ ] Identify opportunities for [deep modules](deep-modules.md) (small interface, deep implementation)
+- [ ] Identify opportunities for [deep modules](references/deep-modules.md) (small interface, deep implementation)
 - [ ] List the behaviors to test (not implementation steps)
 - [ ] Get user approval on the plan
 
-**MANDATORY when designing new interfaces**: Load [interface-design.md](interface-design.md) before finalizing the interface plan.
+**MANDATORY when designing new interfaces**: Load [interface-design.md](references/interface-design.md) before finalizing the interface plan.
 
 Ask: "What should the public interface look like? Which behaviors are most important to test?"
 
@@ -77,7 +77,7 @@ Ask: "What should the public interface look like? Which behaviors are most impor
 
 ### 2. Tracer Bullet
 
-**MANDATORY when the path touches external services, APIs, or system boundaries**: Load [mocking.md](mocking.md) before writing test setup.
+**MANDATORY when the path touches external services, APIs, or system boundaries**: Load [mocking.md](references/mocking.md) before writing test setup.
 
 Write ONE test that confirms ONE thing about the system:
 
@@ -106,7 +106,7 @@ Rules:
 
 ### 4. Refactor
 
-After all tests pass, look for [refactor candidates](refactoring.md):
+After all tests pass, look for [refactor candidates](references/refactoring.md):
 
 - [ ] Deepen modules (move complexity behind simple interfaces)
 - [ ] Consider what new code reveals about existing code
@@ -116,7 +116,7 @@ After all tests pass, look for [refactor candidates](refactoring.md):
 
 ## Checklist Per Cycle
 
-**MANDATORY when unsure whether a test is well-formed**: Load [tests.md](tests.md) for good/bad examples.
+**MANDATORY when unsure whether a test is well-formed**: Load [tests.md](references/tests.md) for good/bad examples.
 
 ```
 [ ] Test describes behavior, not implementation
